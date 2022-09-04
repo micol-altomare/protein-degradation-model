@@ -27,7 +27,9 @@ In this paper, Cambridge et al. use high-resolution mass spectrometry to measure
 ### June-July 2022
 Given the HeLa cell dataset, I removed any proteins whose sequence was not in the [Uniprot](https://www.uniprot.org) database or whose secondary accession number was already in the dataset (ie. duplicate proteins).
 
-To obtain the proteins' amino acid sequences, I retrieved the FASTA files for all the given HeLa cell proteins using their Uniprot ID from [UniprotKB](https://www.uniprot.org/id-mapping). Using the [Biopython](http://biopython.org/DIST/docs/tutorial/Tutorial.html) package, I parsed through the FASTA files and extracted the amino acid sequences while removing the few sequences that contained amino acids (O, U, B, Z, X) besides those in humans.
+To obtain the proteins' amino acid sequences, I retrieved the FASTA files for all the given HeLa cell proteins using their Uniprot ID from [UniprotKB](https://www.uniprot.org/id-mapping). Using the [Biopython](http://biopython.org/DIST/docs/tutorial/Tutorial.html) package, I parsed  through the FASTA files and extracted the amino acid sequences while removing the few sequences that contained amino acids (O, U, B, Z, X) besides those in humans.
+
+<img width="1283" alt="seq length distrib" src="https://user-images.githubusercontent.com/97775581/188311252-243ada4a-bfb9-4bdc-8f75-0dfb2421d26e.png">
 
 Lastly, I used one-hot encoding to convert the amino acid sequences into a binary matrix and zero-padding the sequences to a any maximum length. Setting the maximum length to 1200 amino acids long allowed for a training and testing set of +10 000 proteins collectively.
 
@@ -49,7 +51,15 @@ The CNN is composed of 2 layers and has the following characteristics:
 While a categorical approach accompanying crossentropy loss function can reduce the number of possibilities for prediction, it has several weaknesses. For instance, categories don't contain information about the relationship between categories (as opposed to ordinal classification). Further testing with numerical (eg. means squared error) loss functions can be used to improve the model's performance.
 
 ## Results
-The model was trained in various rounds of epochs up to 500 epochs. As the weights and biases were initialized randomly and the previous model's latest model was loaded at the start of each round of epochs, the model had varying degrees of performance ranging from 0-39% accuracy. Training for more epochs at a time and automatically using the prior round's learning rate can improve the model's performance.
+The model was trained in various rounds of epochs up to 500 epochs. As the weights and biases were initialized randomly and the previous model's latest model was loaded at the start of each round of epochs, the model had varying degrees of performance ranging from 0-39% accuracy. 
+
+<img width="702" alt="round after the successful training round" src="https://user-images.githubusercontent.com/97775581/188311356-691da083-1fce-431c-a32d-bc53ea78f91e.png">
+
+<img width="712" alt="best training round" src="https://user-images.githubusercontent.com/97775581/188311685-856e1be0-2045-4d76-8d03-eaa35dd4fc06.png">
+
+<img width="546" alt="Screen Shot 2022-08-31 at 6 59 02 PM" src="https://user-images.githubusercontent.com/97775581/188311317-4271cbde-f66f-483f-b86c-8fc94ff6461f.png">
+
+Training for more epochs at a time and automatically using the prior round's learning rate can improve the model's performance.
 
 
 ## Onward
